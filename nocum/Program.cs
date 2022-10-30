@@ -15,7 +15,7 @@ namespace nocum
             Random r = new Random();
             int done = -1, ioc, i,j,rum=r.Next(npcSex.Length),endnum=0,max=10,fert=0,rer=0;
             string sex, fob, hi;
-            bool btf,ene,itp,Ps,ch;
+            bool btf,ene,itp,Ps=true,ch;
             while (done == -1)
             {
                 Console.WriteLine("WEL CUM to Choices and have you played befor y/n?");
@@ -26,35 +26,40 @@ namespace nocum
                     hi = Console.ReadLine();
                     if (hi == "y")
                     {
-                        Console.WriteLine("there was a number on the screen do you remeber it y/n?");
-                        hi = Console.ReadLine();
-                        if (hi == "y")
+                        while (done == -1)
                         {
-                            Console.WriteLine("Please enter it");
-                            hi = Console.ReadLine().Trim();
-                            itp = int.TryParse(hi, out endnum);
-                            if (itp == true)
+                            Console.WriteLine("there was a number on the screen do you remeber it y/n?");
+                            hi = Console.ReadLine();
+                            if (hi == "y")
                             {
-                                ene = endnum == 10;
-                                if (ene == true)
+                                Console.WriteLine("Please enter it");
+                                hi = Console.ReadLine().Trim();
+                                itp = int.TryParse(hi, out endnum);
+                                if (itp == true)
                                 {
-                                    max = int.MaxValue;
+                                    ene = endnum == 10;
+                                    if (ene == true)
+                                    {
+                                        max = int.MaxValue;
+                                    }
+                                    else if (endnum == 5)
+                                        fert = 1;
+                                    else
+                                    { Console.WriteLine("not one"); done++; }
+
                                 }
-                                else if (endnum == 5)
-                                    fert = 1;
                                 else
-                                    Console.WriteLine("not one");
-                                done++;
+                                {
+                                    Console.WriteLine("I said number");
+                                    done++;
+                                }
                             }
-                            else
-                                Console.WriteLine("I said number");
-                            done++;
+                            else if (hi != "n")
+                            {
+                                Console.WriteLine("Y OR N");
+                            }
+                            else done++;
                         }
-                        else if (hi != "n")
-                        {
-                            Console.WriteLine("Y OR N");
-                        }
-                        else done++;
                     }
                     else if (hi != "n")
                         Console.WriteLine("Y OR N");
@@ -69,12 +74,12 @@ namespace nocum
             {
                 Console.WriteLine("beast y/n, boy/girl/other");
                 fob = Console.ReadLine().ToLower().Trim();
-                btf = fob == "y";
                 if (fob.Contains(","))
                 {
                     ioc = fob.IndexOf(",");
                     sex = fob.Substring(ioc + 1);
-                    if(sex.StartsWith("b"))
+                    fob = fob.Remove(ioc);
+                    if (sex.StartsWith("b"))
                     {
                         for(i=0;i<npcs.Count;i++)
                         {
@@ -119,15 +124,20 @@ namespace nocum
                 if (max == int.MaxValue && fert == 1)
                 {
                     Ps = Stroub.Ender(rer, max);
-                    ch = Stroub.Preg(v, u, fert == 1);
+                    ch = Stroub.Preg(fert==1,v,u);
                 }
-                else
+                else if(max==10&&fert==0)
                 { 
                     Ps = Stroub.Ender(rer, max);
-                    ch = Stroub.Preg(v, u,false);
+                    ch = Stroub.Preg(false,v,u);
+                }
+                else
+                {
+                    Ps = true;
+                    ch = false;
                 }
                 Thegame.Game(Ps, ch, npcs);
-                done = 1;
+                done++;
             }
         }
     }
@@ -138,9 +148,9 @@ namespace nocum
             bool PS = saw < max;
             return PS;
         }
-        public static bool Preg(double fert,double chance,bool yn)
+        public static bool Preg(bool yn, double fert, double chance)
         {
-            bool check=yn==true | fert == 1.00 && chance == 1.00;
+            bool check= (yn == true || fert == 1.00 && chance == 1.00);
             return check;
         }
         
@@ -149,7 +159,18 @@ namespace nocum
     {
         public static void Game(bool g, bool a, List<string> me)
         {
-
+            Random r = new Random();
+            List<double> feelings = new List<double> { 0.01, 0.01, 0.01, 0.01, 0.01, 0.01 };
+            int i,rum=r.Next(feelings.Count);
+            
+            
+        }
+    }
+    class Inol
+    {
+        public static double Ptime(double time,int who,int fert)
+        {
+            return (who * 10 + (time * fert));
         }
     }
 }
