@@ -1,12 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using System.Text;
+
 
 namespace nocum
 {
     class Program
     {
+
         static void Main(string[] npcSex)
         {
             double v = 1.00, u = 0.01;
@@ -1676,6 +1679,10 @@ namespace nocum
             {
                 return (who * 10 + (time * fert));
             }
+
+
+       
+            
         }
     }
 }
